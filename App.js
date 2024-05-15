@@ -1,101 +1,65 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
 
+
+import Home from './pages/Home';
+import Login from './pages/Login';
+import RecuperarSenha from './pages/RecuperarSenha';
+import Cadastro from './pages/Cadastro';
 import MeuMei from './pages/MeuMei';
 import Gerenciamento from './pages/Gerenciamento';
 import Registros from './pages/Registros';
 import Perfil from './pages/Perfil';
 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Meu Mei') {
+            iconName = focused ? 'briefcase' : 'briefcase-outline';
+          } else if (route.name === 'Gerenciamento') {
+            iconName = focused ? 'settings' : 'settings-outline';
+          } else if (route.name === 'Registros') {
+            iconName = focused ? 'list' : 'list-outline';
+          } else if (route.name === 'Perfil') {
+            iconName = focused ? 'person' : 'person-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'purple',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen name="Meu Mei" component={MeuMei} />
+      <Tab.Screen name="Gerenciamento" component={Gerenciamento} />
+      <Tab.Screen name="Registros" component={Registros} />
+      <Tab.Screen name="Perfil" component={Perfil} />
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'Meu Mei') {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Gerenciamento') {
-              iconName = focused ? 'settings' : 'settings-outline';
-            } else if (route.name === 'Registros') {
-              iconName = focused ? 'list' : 'list-outline';
-            } else if (route.name === 'Perfil') {
-              iconName = focused ? 'person' : 'person-outline';
-            }
-
-            return <Icon name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: 'purple',
-          tabBarInactiveTintColor: 'gray',
-        })}
-      >
-        <Tab.Screen
-          name="Meu Mei"
-          component={MeuMei}
-          options={{
-            headerTitle: () => (
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image
-                  source={require('./assets/Logo.png')}
-                  style={{ width: 40, height: 40 }}
-                />
-                <Text>Meu Mei</Text>
-              </View>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Gerenciamento"
-          component={Gerenciamento}
-          options={{
-            headerTitle: () => (
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image
-                  source={require('./assets/Logo.png')}
-                  style={{ width: 40, height: 40 }}
-                />
-                <Text>Gerenciamento</Text>
-              </View>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Registros"
-          component={Registros}
-          options={{
-            headerTitle: () => (
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image
-                  source={require('./assets/Logo.png')}
-                  style={{ width: 40, height: 40 }}
-                />
-                <Text>Registros</Text>
-              </View>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Perfil"
-          component={Perfil}
-          options={{
-            headerTitle: () => (
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image
-                  source={require('./assets/Logo.png')}
-                  style={{ width: 40, height: 40 }}
-                />
-                <Text>Perfil</Text>
-              </View>
-            ),
-          }}
-        />
-      </Tab.Navigator>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
+        <Stack.Screen name="Cadastro" component={Cadastro} />
+        <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
