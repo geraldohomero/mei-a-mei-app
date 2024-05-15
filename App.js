@@ -19,7 +19,7 @@ export default function App() {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === 'MeuMei') {
+            if (route.name === 'Meu Mei') {
               iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Gerenciamento') {
               iconName = focused ? 'settings' : 'settings-outline';
@@ -36,7 +36,7 @@ export default function App() {
         })}
       >
         <Tab.Screen
-          name="MeuMei"
+          name="Meu Mei"
           component={MeuMei}
           options={{
             headerTitle: () => (
@@ -45,7 +45,7 @@ export default function App() {
                   source={require('./assets/Logo.png')}
                   style={{ width: 40, height: 40 }}
                 />
-                <Text>MeuMei</Text>
+                <Text>Meu Mei</Text>
               </View>
             ),
           }}
