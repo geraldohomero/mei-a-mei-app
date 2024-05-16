@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
       if (token) {
         console.log('Token JWT via E-mail: ' + token);
         // Aqui você pode navegar para a página inicial
-        navigation.navigate('TabNavigator');
+        navigation.navigate('MyTabs');
       } else {
         throw new Error('Token não encontrado');
       }
