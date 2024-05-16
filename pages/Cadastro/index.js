@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 
 
-export default function Cadastro({ navigation }) {
+export default function Cadastro({ navigation = {} }) {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -12,7 +12,7 @@ export default function Cadastro({ navigation }) {
   const [cnpj, setCnpj] = useState('');
 
   const handleCadastro = () => {
-    // Aqui você pode lidar com a lógica de cadastro
+    // lógica de cadastro
     console.log(nome, email, senha, razaoSocial);
   };
 
@@ -48,15 +48,8 @@ export default function Cadastro({ navigation }) {
         mode="outlined"
         label="Senha"
         value={senha}
-        onChangeText={setSenha}
-        secureTextEntry={!senhaVisivel}
+        secureTextEntry
         style={{ width: '80%', marginBottom: 10 }}
-        right={
-          <TextInput.Icon
-            name={senhaVisivel ? "eye-off" : "eye"}
-            onPress={() => setSenhaVisivel(!senhaVisivel)}
-          />
-        }
       />
       <TextInput
         mode="outlined"

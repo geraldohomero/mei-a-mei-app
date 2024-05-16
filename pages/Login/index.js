@@ -1,16 +1,37 @@
 import React, { useState } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
-
-import RecuperarSenha from '../RecuperarSenha';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const handleLogin = () => {
-    // Aqui você pode lidar com a lógica de login
-    console.log(email, senha);
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('https://localhost:7097/api/Usuarios/authenticate', {
+        email: email,
+        password: senha,
+      });
+
+      const data = response.data;
+      const token = data.jwtToken;
+
+      if (token) {
+        console.log('Token JWT via E-mail: ' + token);
+        // Aqui você pode navegar para a página inicial
+        navigation.navigate('TabNavigator');
+      } else {
+        throw new Error('Token não encontrado');
+      }
+
+      // Armazena o token no AsyncStorage
+      await AsyncStorage.setItem('token', token);
+    } catch (error) {
+      console.error('Erro ao fazer login', error);
+      Alert.alert('Erro ao fazer login', error.message);
+    }
   };
 
   return (
