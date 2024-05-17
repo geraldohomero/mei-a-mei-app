@@ -6,38 +6,38 @@ import axios from 'axios';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
+
+    const response = await axios.post('http://10.0.2.2:5062/api/Usuarios/authenticate', {
+      email: email,
+      senha: password,
+    });
+
+    const data = response.data;
+    const token = data.jwtToken;
+
+    if (token) {
+      console.log('Token JWT via E-mail: ' + token);
+      // Aqui você pode navegar para a página inicial
+      navigation.navigate('MyTabs');
+    } else {
+      throw new Error('Token não encontrado');
+    }
+
+    // Armazena o token no AsyncStorage
     try {
-      const response = await axios.post('https://localhost:7097/api/Usuarios/authenticate', {
-        email: email,
-        password: senha,
-      });
-
-      const data = response.data;
-      const token = data.jwtToken;
-
-      if (token) {
-        console.log('Token JWT via E-mail: ' + token);
-        // Aqui você pode navegar para a página inicial
-        navigation.navigate('MyTabs');
-      } else {
-        throw new Error('Token não encontrado');
-      }
-
-      // Armazena o token no AsyncStorage
       await AsyncStorage.setItem('token', token);
     } catch (error) {
-      console.error('Erro ao fazer login', error);
-      Alert.alert('Erro ao fazer login', error.message);
+      console.error('Erro ao armazenar o token:', error);
     }
   };
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Image
-        source={require('../../assets/Logo.png')} // Substitua pelo caminho para a sua logo
+        source={require('../../assets/Logo.png')}
         style={{ width: 100, height: 100 }}
       />
       <TextInput
@@ -50,8 +50,8 @@ export default function Login({ navigation }) {
       <TextInput
         mode="outlined"
         label="Senha"
-        value={senha}
-        onChangeText={setSenha}
+        value={password}
+        onChangeText={setPassword}
         secureTextEntry
         style={{ width: '80%', marginBottom: 10 }}
       />
