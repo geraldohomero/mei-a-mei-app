@@ -1,14 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Stack } from './navigation'; // Importe Stack de navigation.js
 
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import RecuperarSenha from '../pages/RecuperarSenha';
 import Cadastro from '../pages/Cadastro';
 import TabNavigator from './TabNavigator';
-
-const Stack = createStackNavigator();
 
 export default function StackNavigator() {
   return (

@@ -20,8 +20,11 @@ export default function Login({ navigation }) {
 
     if (token) {
       console.log('Token JWT via E-mail: ' + token);
-      // Aqui você pode navegar para a página inicial
-      navigation.navigate('MyTabs');
+      // Redefinir o histórico de navegação após o login
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MyTabs' }],
+      });
     } else {
       throw new Error('Token não encontrado');
     }

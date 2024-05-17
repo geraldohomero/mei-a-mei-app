@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image } from 'react-native';
 import { Button, Paragraph } from 'react-native-paper';
+import { jwtDecode } from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Cadastro from '../Cadastro';
 import Login from '../Login';
 
 export default function Home({ navigation }) {
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 20 }}>
       <Image
@@ -18,9 +21,6 @@ export default function Home({ navigation }) {
       </Button>
       <Button mode="contained" onPress={() => navigation.navigate('Cadastro')} style={{ marginBottom: 10 }}>
         Cadastrai-vos
-      </Button>
-      <Button mode="text" onPress={() => navigation.navigate('MyTabs')}>
-        Voltar ao app
       </Button>
     </View>
   );

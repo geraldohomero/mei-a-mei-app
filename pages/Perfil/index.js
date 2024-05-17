@@ -6,8 +6,6 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Dialog from "react-native-dialog";
 
-
-
 function Perfil() {
   const [usuario, setUsuario] = useState(null);
   const [showId, setShowId] = useState(false);
@@ -60,6 +58,7 @@ function Perfil() {
     setDialogVisible(false);
   };
 
+
   const handleConfirm = () => {
     const updatedUser = { ...usuario, [fieldToEdit.toLowerCase()]: newValue };
     // Aqui você pode fazer a chamada para a API para atualizar o usuário
@@ -80,6 +79,13 @@ function Perfil() {
         console.error("Erro ao atualizar o usuário:", error);
       });
     setDialogVisible(false);
+  };
+
+  const handleLogoff = async () => {
+    await AsyncStorage.removeItem('token');
+    setToken(null);
+    setUsuario(null);
+    navigation.navigate('StackNavigator');
   };
 
   if (!usuario) {
@@ -108,12 +114,16 @@ function Perfil() {
         <Text><Text style={{ fontWeight: 'bold' }}>CNPJ:</Text> {usuario.cnpj}</Text>
         <Button mode="contained" onPress={() => handleEdit('CNPJ')}>Editar</Button>
       </View>
-      <Dialog.Container visible={dialogVisible}>
-        <Dialog.Title>Editar {fieldToEdit}</Dialog.Title>
-        <Dialog.Input onChangeText={setNewValue} value={newValue} />
-        <Dialog.Button label="Cancelar" onPress={handleCancel} />
-        <Dialog.Button label="OK" onPress={handleConfirm} />
-      </Dialog.Container>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        {/* ... código existente ... */}
+        <Button mode="contained" onPress={handleLogoff}>Sair</Button>
+        <Dialog.Container visible={dialogVisible}>
+          <Dialog.Title>Editar {fieldToEdit}</Dialog.Title>
+          <Dialog.Input onChangeText={setNewValue} value={newValue} />
+          <Dialog.Button label="Cancelar" onPress={handleCancel} />
+          <Dialog.Button label="OK" onPress={handleConfirm} />
+        </Dialog.Container>
+      </View>
     </View>
 
   );

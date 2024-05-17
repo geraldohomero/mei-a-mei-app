@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwtDecode from 'jwt-decode';
 import StackNavigator from './navigators/StackNavigator';
 import TabNavigator from './navigators/TabNavigator';
 
@@ -9,7 +10,20 @@ export default function App() {
   useEffect(() => {
     const checkLoginStatus = async () => {
       const userToken = await AsyncStorage.getItem('userToken');
-      setIsLoggedIn(userToken ? true : false);
+      console.log('userToken:', userToken);
+      if (userToken) {
+        const decodedToken = jwtDecode(userToken);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp > currentTime) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+          AsyncStorage.removeItem('userToken'); // Remove o token expirado
+        }
+      } else {
+        setIsLoggedIn(false);
+      }
     };
 
     checkLoginStatus();
@@ -19,5 +33,9 @@ export default function App() {
     return null; // Ou algum componente de carregamento
   }
 
-  return isLoggedIn ? <TabNavigator /> : <StackNavigator />;
+  if (isLoggedIn) {
+    return <TabNavigator />;
+  } else {
+    return <StackNavigator />;
+  }
 }
