@@ -12,15 +12,15 @@ export default function Home({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 20 }}>
       <Image
-        source={require('../../assets/Logo.png')} // Substitua pelo caminho para a sua logo
+        source={require('../../assets/Logo.png')}
         style={{ width: 200, height: 200, marginBottom: 20 }}
       />
       <Paragraph style={{ marginBottom: 20 }}>Nunca foi tão fácil gerenciar o seu MEI</Paragraph>
       <Button mode="contained" onPress={() => navigation.navigate('Login')} style={{ marginBottom: 10 }}>
-        Mete seu Login
+        Login
       </Button>
       <Button mode="contained" onPress={() => navigation.navigate('Cadastro')} style={{ marginBottom: 10 }}>
-        Cadastrai-vos
+        Cadastro
       </Button>
     </View>
   );

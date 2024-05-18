@@ -19,7 +19,7 @@ function Perfil() {
     const fetchUser = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
-        setToken(token); // Adicione esta linha
+        setToken(token);
         const decodedToken = jwtDecode(token);
         const userId = decodedToken && decodedToken.nameid;
 
@@ -115,7 +115,6 @@ function Perfil() {
         <Button mode="contained" onPress={() => handleEdit('CNPJ')}>Editar</Button>
       </View>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        {/* ... código existente ... */}
         <Button mode="contained" onPress={handleLogoff}>Sair</Button>
         <Dialog.Container visible={dialogVisible}>
           <Dialog.Title>Editar {fieldToEdit}</Dialog.Title>
