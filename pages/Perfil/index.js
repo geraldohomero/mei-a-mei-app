@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import Dialog from "react-native-dialog";
+import { useNavigation } from '@react-navigation/native';
 
 function Perfil() {
   const [usuario, setUsuario] = useState(null);
@@ -13,7 +14,7 @@ function Perfil() {
   const [fieldToEdit, setFieldToEdit] = useState("");
   const [newValue, setNewValue] = useState("");
   const [token, setToken] = useState(null);
-
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -61,7 +62,6 @@ function Perfil() {
 
   const handleConfirm = () => {
     const updatedUser = { ...usuario, [fieldToEdit.toLowerCase()]: newValue };
-    // Aqui você pode fazer a chamada para a API para atualizar o usuário
     axios.put(`http://10.0.2.2:5062/api/Usuarios/${usuario.id}`, updatedUser, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -85,7 +85,12 @@ function Perfil() {
     await AsyncStorage.removeItem('token');
     setToken(null);
     setUsuario(null);
-    navigation.navigate('StackNavigator');
+    navigation.navigate('Home');
+    // Redefine o histórico de navegação após o Logoff
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Home' }],
+    });
   };
 
   if (!usuario) {
@@ -115,7 +120,7 @@ function Perfil() {
         <Button mode="contained" onPress={() => handleEdit('CNPJ')}>Editar</Button>
       </View>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Button mode="contained" onPress={handleLogoff}>Sair</Button>
+        <Button mode="contained" color="red" onPress={handleLogoff}>Sair</Button>
         <Dialog.Container visible={dialogVisible}>
           <Dialog.Title>Editar {fieldToEdit}</Dialog.Title>
           <Dialog.Input onChangeText={setNewValue} value={newValue} />

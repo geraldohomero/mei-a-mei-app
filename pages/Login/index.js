@@ -20,7 +20,7 @@ export default function Login({ navigation }) {
 
     if (token) {
       console.log('Token JWT via E-mail: ' + token);
-      // Redefinir o histórico de navegação após o login
+      // Redefine o histórico de navegação após o login
       navigation.reset({
         index: 0,
         routes: [{ name: 'MyTabs' }],
@@ -29,7 +29,7 @@ export default function Login({ navigation }) {
       throw new Error('Token não encontrado');
     }
 
-    // Armazena o token no AsyncStorage
+    // Armazena o token JWT no AsyncStorage
     try {
       await AsyncStorage.setItem('token', token);
     } catch (error) {
