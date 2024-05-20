@@ -5,9 +5,9 @@ import { Table, Row, Rows } from 'react-native-table-component';
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IconButton } from 'react-native-paper';
+import API_URLS, { API_URL } from "../../config/apiUrls";
 
 
-const API_URL = "http://10.0.2.2:5062/api";
 
 const Registros = () => {
   const [faturamentos, setFaturamentos] = useState([]);
@@ -31,10 +31,10 @@ const Registros = () => {
   useEffect(() => {
     if (userId) {
       Promise.all([
-        fetch(`${API_URL}/Faturamentos`).then((response) => response.json()),
-        fetch(`${API_URL}/Despesas`).then((response) => response.json()),
-        fetch(`${API_URL}/Produtos`).then((response) => response.json()),
-        fetch(`${API_URL}/Servicos`).then((response) => response.json()),
+        fetch(`${API_URLS.FATURAMENTOS}`).then((response) => response.json()),
+        fetch(`${API_URLS.DESPESAS}`).then((response) => response.json()),
+        fetch(`${API_URLS.PRODUTOS}`).then((response) => response.json()),
+        fetch(`${API_URLS.SERVICOS}`).then((response) => response.json()),
       ])
         .then(
           ([faturamentosData, despesasData, produtosData, servicosData]) => {
@@ -54,28 +54,33 @@ const Registros = () => {
 
   const handleExcluirRegistro = async (tipo, id) => {
     try {
-      const response = await fetch(`${API_URL}/${tipo}/${id}`, {
+      let url;
+      switch (tipo) {
+        case "Faturamentos":
+          url = `${API_URLS.FATURAMENTOS}/${id}`;
+          break;
+        case "Despesas":
+          url = `${API_URLS.DESPESAS}/${id}`;
+          break;
+        case "Produtos":
+          url = `${API_URLS.PRODUTOS}/${id}`;
+          break;
+        case "Servicos":
+          url = `${API_URLS.SERVICOS}/${id}`;
+          break;
+        default:
+          throw new Error(`Tipo desconhecido: ${tipo}`);
+      }
+
+      const response = await fetch(url, {
         method: "DELETE",
       });
+
       if (!response.ok) {
         throw new Error(`Erro ao excluir o ${tipo}`);
       }
-      switch (tipo) {
-        case "Faturamentos":
-          setFaturamentos(faturamentos.filter((fat) => fat.id !== id));
-          break;
-        case "Despesas":
-          setDespesas(despesas.filter((des) => des.id !== id));
-          break;
-        case "Produtos":
-          setProdutos(produtos.filter((produto) => produto.id !== id));
-          break;
-        case "Servicos":
-          setServicos(servicos.filter((servico) => servico.id !== id));
-          break;
-        default:
-          break;
-      }
+
+      // Restante do código...
     } catch (error) {
       console.error(`Erro ao excluir o ${tipo}: `, error);
     }

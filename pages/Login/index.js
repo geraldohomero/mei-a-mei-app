@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { View, Image, Text, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import axios from 'axios'; // Add this line
+import API_URLS from '../../config/apiUrls';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ export default function Login({ navigation }) {
 
   const handleLogin = async () => {
 
-    const response = await axios.post('http://10.0.2.2:5062/api/Usuarios/authenticate', {
+    const response = await axios.post(`${API_URLS.USUARIOS_AUTHENTICATE}`, {
       email: email,
       senha: password,
     });
