@@ -101,7 +101,12 @@ const Registros = () => {
       fat.servicoId === "Serviço" ? servico?.nome : "",
       fat.meioDePagamento,
       fat.valor.toString(),
-      <IconButton icon="delete" color="red" size={20} onPress={() => handleExcluirRegistro("Faturamentos", fat.id)} />
+      <IconButton
+        icon="delete"
+        color="red"
+        size={20}
+        onPress={() => handleExcluirRegistro("Faturamentos", fat.id)}
+      />
     ];
   };
 
@@ -111,7 +116,12 @@ const Registros = () => {
       des.nome,
       des.categoriasId,
       des.valor.toString(),
-      <IconButton icon="delete" color="red" size={20} onPress={() => handleExcluirRegistro("Despesas", des.id)} />
+      <IconButton
+        icon="delete"
+        color="red"
+        size={20}
+        onPress={() => handleExcluirRegistro("Despesas", des.id)}
+      />
     ];
   };
 
@@ -160,7 +170,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 16,
   },
-  head: { height: 40, backgroundColor: '#f1f8ff' },
+  head: {
+    height: 40,
+    backgroundColor: '#f1f8ff'
+  },
 });
 
 export default Registros;

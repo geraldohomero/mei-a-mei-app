@@ -39,17 +39,17 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center', padding: 16, marginBottom: 80 }}>
       <Image
         source={require('../../assets/Logo.png')}
-        style={{ width: 100, height: 100 }}
+        style={{ width: 100, height: 100, alignSelf: 'center', marginBottom: 16 }}
       />
       <TextInput
         mode="outlined"
         label="Email"
         value={email}
         onChangeText={setEmail}
-        style={{ width: '80%', marginBottom: 10 }}
+        style={{ marginBottom: 10 }}
       />
       <TextInput
         mode="outlined"
@@ -57,7 +57,7 @@ export default function Login({ navigation }) {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        style={{ width: '80%', marginBottom: 10 }}
+        style={{ marginBottom: 10 }}
       />
       <Button mode="contained" onPress={handleLogin}>
         Login
@@ -65,6 +65,6 @@ export default function Login({ navigation }) {
       <Button mode="text" onPress={() => navigation.navigate('RecuperarSenha')}>
         Esqueceu a senha?
       </Button>
-    </View>
+    </View >
   );
 }

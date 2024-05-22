@@ -7,6 +7,8 @@ import axios from 'axios';
 import Dialog from "react-native-dialog";
 import { useNavigation } from '@react-navigation/native';
 
+import API_URLS from '../../config/apiUrls';
+
 function Perfil() {
   const [usuario, setUsuario] = useState(null);
   const [showId, setShowId] = useState(false);
@@ -28,7 +30,7 @@ function Perfil() {
         console.log('userId:', userId);
 
         if (userId) {
-          axios.get(`http://10.0.2.2:5062/api/Usuarios/${userId}`, {
+          axios.get(`${API_URLS.USUARIOS}/${userId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -62,7 +64,7 @@ function Perfil() {
 
   const handleConfirm = () => {
     const updatedUser = { ...usuario, [fieldToEdit.toLowerCase()]: newValue };
-    axios.put(`http://10.0.2.2:5062/api/Usuarios/${usuario.id}`, updatedUser, {
+    axios.put(`${API_URLS.USUARIOS}/${usuario.id}`, updatedUser, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
