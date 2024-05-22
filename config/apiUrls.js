@@ -1,13 +1,15 @@
+const URL_BASE = 'http://10.0.2.2:5062/api/';
+
 const API_URLS = {
-  USUARIOS_AUTHENTICATE: 'http://10.0.2.2:5062/api/Usuarios/authenticate',
-  USUARIOS: 'http://10.0.2.2:5062/api/Usuarios',
-  CLIENTES: 'http://10.0.2.2:5062/api/Clientes',
-  CATEGORIAS: 'http://10.0.2.2:5062/api/Categorias',
-  DESPESAS: 'http://10.0.2.2:5062/api/Despesas',
-  FATURAMENTOS: 'http://10.0.2.2:5062/api/Faturamentos',
-  MEIS: 'http://10.0.2.2:5062/api/Meis',
-  PRODUTOS: 'http://10.0.2.2:5062/api/Produtos',
-  SERVICOS: 'http://10.0.2.2:5062/api/Servicos'
+  USUARIOS_AUTHENTICATE: `${URL_BASE}Usuarios/authenticate`,
+  USUARIOS: `${URL_BASE}Usuarios`,
+  CLIENTES: `${URL_BASE}Clientes`,
+  CATEGORIAS: `${URL_BASE}Categorias`,
+  DESPESAS: `${URL_BASE}Despesas`,
+  FATURAMENTOS: `${URL_BASE}Faturamentos`,
+  MEIS: `${URL_BASE}Meis`,
+  PRODUTOS: `${URL_BASE}Produtos`,
+  SERVICOS: `${URL_BASE}Servicos`
 };
 
 export default API_URLS;

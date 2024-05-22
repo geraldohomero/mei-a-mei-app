@@ -5,9 +5,8 @@ import { Table, Row, Rows } from 'react-native-table-component';
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IconButton } from 'react-native-paper';
+
 import API_URLS, { API_URL } from "../../config/apiUrls";
-
-
 
 const Registros = () => {
   const [faturamentos, setFaturamentos] = useState([]);
