@@ -1,51 +1,68 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Button, StyleSheet } from 'react-native';
 
 import GraficoMes from '../../components/Graficos/GraficoMes';
 import GraficoAno from '../../components/Graficos/GraficoAno';
-
+import SaldoDespesas from '../../components/SaldoDespesas';
+import SaldoVendas from '../../components/SaldoVendas';
 
 const Faturamento = () => {
   const [grafico, setGrafico] = React.useState('mes');
 
   return (
-    <View style={styles.container}>
-      <View style={styles.row}>
-        <View style={styles.col}>
-          <Button title="MÊS" onPress={() => setGrafico('mes')} />
-          <Button title="ANO" onPress={() => setGrafico('ano')} />
+    <View style={styles.mainContainer}>
+      <View style={styles.horizontalContainer}>
+        <View style={styles.equalFlexItem}>
+          <SaldoVendas />
+        </View>
+        <View style={styles.equalFlexItem}>
+          <SaldoDespesas />
         </View>
       </View>
-      <View style={styles.row}>
-        <View style={styles.col}>
-          {grafico === 'mes' ? (
-            <GraficoMes style={styles.grafico} />
-          ) : (
-            <GraficoAno style={styles.grafico} />
-          )}
+      <View style={styles.graphAndButtonsContainer}>
+        {grafico === 'mes' ? (
+          <GraficoMes style={styles.centeredGraph} />
+        ) : (
+          <GraficoAno style={styles.centeredGraph} />
+        )}
+        <View style={styles.buttonContainer}>
+          <View style={styles.equalFlexItem}>
+            <Button title="MÊS" onPress={() => setGrafico('mes')} />
+          </View>
+          <View style={styles.equalFlexItem}>
+            <Button title="ANO" onPress={() => setGrafico('ano')} />
+          </View>
         </View>
       </View>
+
     </View>
   );
 };
 
+
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
-  row: {
+  horizontalContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-around',
   },
-  col: {
+  equalFlexItem: {
     flex: 1,
+  },
+  graphAndButtonsContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  grafico: {
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+    margin: 55,
+  },
+  centeredGraph: {
     borderWidth: 1,
     borderColor: 'black',
     padding: 10,

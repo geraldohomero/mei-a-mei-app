@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import { Table, Row, Rows } from 'react-native-table-component';
+import { Table, Row, Rows, Cell } from 'react-native-table-component';
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IconButton } from 'react-native-paper';
@@ -86,10 +86,14 @@ const Registros = () => {
   };
 
   const renderTable = (head, data, renderRow, title) => (
-    <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
-      <Row data={head} style={styles.head} textStyle={styles.text} />
-      <Rows data={data.map(renderRow)} textStyle={styles.text} />
-    </Table>
+    <View>
+      <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
+        <Row data={head} style={styles.head} textStyle={styles.text} />
+        {data.map((rowData, index) => (
+          <Row key={index} data={renderRow(rowData)} textStyle={styles.text} />
+        ))}
+      </Table>
+    </View>
   );
 
   const renderFaturamentosRow = (fat) => {
@@ -162,17 +166,20 @@ const styles = StyleSheet.create({
     padding: 16,
     borderWidth: 1,
     borderColor: '#ffc107',
-    borderRadius: 8,
+    borderRadius: 8
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 16
   },
   head: {
     height: 40,
     backgroundColor: '#f1f8ff'
   },
+  text: {
+    fontSize: 9
+  }
 });
 
 export default Registros;
