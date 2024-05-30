@@ -30,7 +30,7 @@ export default function App() {
   }, []);
 
   if (isLoggedIn === null) {
-    return null; // Ou algum componente de carregamento
+    return null; // Ou algum componente de carregamento => ver depois
   }
 
   if (isLoggedIn) {

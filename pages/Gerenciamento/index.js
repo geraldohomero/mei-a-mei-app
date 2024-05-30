@@ -1,10 +1,63 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
-export default function Gerenciamento() {
+const GerenciamentoScreen = ({ navigation }) => {
   return (
-    <View>
-      <Text>Esta é a página De Gerenciamento</Text>
+    <View style={styles.container}>
+      <View style={styles.linkContainer}>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('GerenciarProdutos')}>Produtos</Text>
+        <View style={styles.arrow}></View>
+      </View>
+      <View style={styles.linkContainer}>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('GerenciarServicos')}>Servicos</Text>
+        <View style={styles.arrow}></View>
+      </View>
+      <View style={styles.linkContainer}>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('GerenciarCategorias')}>Categorias</Text>
+        <View style={styles.arrow}></View>
+      </View>
+      <View style={styles.linkContainer}>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('GerenciarClientes')}>Clientes</Text>
+        <View style={styles.arrow}></View>
+      </View>
+      <View style={styles.linkContainer}>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('ProcurarContadores')}>Contador</Text>
+        <View style={styles.arrow}></View>
+      </View>
     </View>
   );
-}
+};
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const styles = StyleSheet.create({
+  container: {
+    width: windowWidth * 0.9,
+    padding: 20,
+    backgroundColor: '#f2cb57',
+    borderRadius: 10,
+    margin: 10,
+  },
+  linkContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  linkText: {
+    color: '#470459',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  arrow: {
+    width: 10,
+    height: 10,
+    borderLeftWidth: 2,
+    borderBottomWidth: 2,
+    borderColor: 'black',
+    transform: [{ rotate: '45deg' }],
+  },
+});
+
+export default GerenciamentoScreen;

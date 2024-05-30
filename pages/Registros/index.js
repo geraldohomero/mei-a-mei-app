@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import { Table, Row, Rows, Cell } from 'react-native-table-component';
+import { Table, Row, Rows } from 'react-native-table-component';
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IconButton } from 'react-native-paper';
@@ -88,9 +88,9 @@ const Registros = () => {
   const renderTable = (head, data, renderRow, title) => (
     <View>
       <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
-        <Row data={head} style={styles.head} textStyle={styles.text} />
+        <Row data={head} style={styles.head} />
         {data.map((rowData, index) => (
-          <Row key={index} data={renderRow(rowData)} textStyle={styles.text} />
+          <Row key={index} data={renderRow(rowData)} />
         ))}
       </Table>
     </View>
@@ -131,7 +131,7 @@ const Registros = () => {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        <Text style={styles.title}>Registros de vendas</Text>
+        <Text>Registros de vendas</Text>
         {renderTable(
           ["Data", "Venda", "Produto", "Serviço", "Meio de Pagamento", "Valor", ""],
           faturamentos,
@@ -140,7 +140,7 @@ const Registros = () => {
         )}
       </View>
       <View style={styles.box}>
-        <Text style={styles.title}>Registros de despesas</Text>
+        <Text>Registros de despesas</Text>
         {renderTable(
           ["Data", "Despesa", "Categoria", "Valor", ""],
           despesas,
@@ -167,11 +167,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ffc107',
     borderRadius: 8
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 16
   },
   head: {
     height: 40,

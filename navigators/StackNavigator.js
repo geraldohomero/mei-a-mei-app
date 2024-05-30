@@ -8,6 +8,7 @@ import Login from '../pages/Login';
 import RecuperarSenha from '../pages/RecuperarSenha';
 import Cadastro from '../pages/Cadastro';
 import TabNavigator from './TabNavigator';
+import ProcurarContadores from '../components/ProcurarContadores';
 
 export default function StackNavigator() {
   return (
@@ -18,6 +19,7 @@ export default function StackNavigator() {
         <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
         <Stack.Screen name="Cadastro" component={Cadastro} />
         <Stack.Screen name="MyTabs" component={TabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="ProcurarContadores" component={ProcurarContadores} />
       </Stack.Navigator>
     </NavigationContainer>
   );
