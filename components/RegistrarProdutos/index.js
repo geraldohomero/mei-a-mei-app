@@ -3,12 +3,16 @@ import { View, Text, FlatList, Button, TextInput, StyleSheet, Alert } from 'reac
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_URLS from '../../config/apiUrls';
+import Dialog from "react-native-dialog";
 import { jwtDecode } from 'jwt-decode';
 
 const RegistrarProdutos = ({ navigation, route }) => {
   const [produtos, setProdutos] = useState([]);
   const [search, setSearch] = useState('');
   const [nome, setNome] = useState('');
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [fieldToEdit, setFieldToEdit] = useState("");
+  const [newValue, setNewValue] = useState("");
   const [token, setToken] = useState(''); // Adicionado estado para o token
 
   const fetchProdutos = async () => {
@@ -28,7 +32,7 @@ const RegistrarProdutos = ({ navigation, route }) => {
       if (response.status >= 200 && response.status < 300) {
         setProdutos(response.data);
       } else {
-        throw new Error('Erro ao buscar produtos: ' + JSON.stringify(response.data));
+        throw new Error('Erro ao buscar produtyos: ' + JSON.stringify(response.data));
       }
     } catch (error) {
       console.error('Erro ao buscar produtos:', error);
@@ -40,7 +44,7 @@ const RegistrarProdutos = ({ navigation, route }) => {
     fetchProdutos();
   }, []);
 
-  const handleAddProduct = async () => {
+  const handleAddProduto = async () => {
     try {
       const jwtToken = await AsyncStorage.getItem('token');
 
@@ -63,7 +67,7 @@ const RegistrarProdutos = ({ navigation, route }) => {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        Alert.alert('Sucesso', 'Produto adicionado com sucesso!');
+        Alert.alert('Sucesso', 'Produtos adicionado com sucesso!');
         fetchProdutos(); // Atualize a lista de produtos após adicionar um novo
       } else {
         throw new Error('Erro ao adicionar produto: ' + JSON.stringify(response.data));
@@ -73,6 +77,26 @@ const RegistrarProdutos = ({ navigation, route }) => {
       Alert.alert('Erro', 'Falha ao adicionar produto: ' + error.message);
     }
   };
+
+
+  const handleEdit = (id) => {
+    const produtoToEdit = produtos.find(produto => produto.id === id);
+    setNewValue(produtoToEdit.nome);
+    setFieldToEdit(id);
+    setDialogVisible(true);
+  };
+
+  const handleConfirm = () => {
+    const updatedProduto = produtos.map(produto => {
+      if (produto.id === fieldToEdit) {
+        return { ...produto, nome: newValue };
+      }
+      return produto;
+    });
+    setProdutos(updatedProduto);
+    setDialogVisible(false);
+  };
+
 
   const handleDelete = (id) => {
     axios.delete(`${API_URLS.PRODUTOS}/${id}`)
@@ -93,11 +117,11 @@ const RegistrarProdutos = ({ navigation, route }) => {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Nome do Produto"
+        placeholder="Nome do Produtos"
         value={nome}
         onChangeText={setNome}
       />
-      <Button title="Salvar" onPress={handleAddProduct} />
+      <Button title="Salvar" onPress={handleAddProduto} />
 
       <TextInput
         style={styles.searchBar}
@@ -119,6 +143,12 @@ const RegistrarProdutos = ({ navigation, route }) => {
           </View>
         )}
       />
+      <Dialog.Container visible={dialogVisible}>
+        <Dialog.Title>Editar Produtos</Dialog.Title>
+        <Dialog.Input onChangeText={setNewValue} value={newValue} />
+        <Dialog.Button label="Cancelar" onPress={() => setDialogVisible(false)} />
+        <Dialog.Button label="OK" onPress={handleConfirm} />
+      </Dialog.Container>
     </View>
   );
 };
