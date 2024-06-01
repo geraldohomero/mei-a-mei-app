@@ -9,6 +9,10 @@ import RecuperarSenha from '../pages/RecuperarSenha';
 import Cadastro from '../pages/Cadastro';
 import TabNavigator from './TabNavigator';
 import ProcurarContadores from '../components/ProcurarContadores';
+import RegistrarProdutos from '../components/RegistrarProdutos';
+import RegistrarCategorias from '../components/RegistrarCategorias';
+import RegistrarClientes from '../components/RegistrarClientes';
+import RegistrarServicos from '../components/RegistrarServicos';
 
 export default function StackNavigator() {
   return (
@@ -19,7 +23,12 @@ export default function StackNavigator() {
         <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} />
         <Stack.Screen name="Cadastro" component={Cadastro} />
         <Stack.Screen name="MyTabs" component={TabNavigator} options={{ headerShown: false }} />
-        <Stack.Screen name="ProcurarContadores" component={ProcurarContadores} />
+        {/* Rotas de Gerenciamento */}
+        <Stack.Screen name="Registrar Produtos" component={RegistrarProdutos} />
+        <Stack.Screen name="Registrar Serviços" component={RegistrarServicos} />
+        <Stack.Screen name="Registrar Categorias" component={RegistrarCategorias} />
+        <Stack.Screen name="Registrar Clientes" component={RegistrarClientes} />
+        <Stack.Screen name="Procurar Contadores" component={ProcurarContadores} />
       </Stack.Navigator>
     </NavigationContainer>
   );

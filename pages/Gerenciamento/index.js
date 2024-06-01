@@ -5,23 +5,23 @@ const GerenciamentoScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.linkContainer}>
-        <Text style={styles.linkText} onPress={() => navigation.navigate('GerenciarProdutos')}>Produtos</Text>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('Registrar Produtos')}>Produtos</Text>
         <View style={styles.arrow}></View>
       </View>
       <View style={styles.linkContainer}>
-        <Text style={styles.linkText} onPress={() => navigation.navigate('GerenciarServicos')}>Servicos</Text>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('Registrar Serviços')}>Servicos</Text>
         <View style={styles.arrow}></View>
       </View>
       <View style={styles.linkContainer}>
-        <Text style={styles.linkText} onPress={() => navigation.navigate('GerenciarCategorias')}>Categorias</Text>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('Registrar Categorias')}>Categorias</Text>
         <View style={styles.arrow}></View>
       </View>
       <View style={styles.linkContainer}>
-        <Text style={styles.linkText} onPress={() => navigation.navigate('GerenciarClientes')}>Clientes</Text>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('Registrar Clientes')}>Clientes</Text>
         <View style={styles.arrow}></View>
       </View>
       <View style={styles.linkContainer}>
-        <Text style={styles.linkText} onPress={() => navigation.navigate('ProcurarContadores')}>Contador</Text>
+        <Text style={styles.linkText} onPress={() => navigation.navigate('Procurar Contadores')}>Contador</Text>
         <View style={styles.arrow}></View>
       </View>
     </View>
