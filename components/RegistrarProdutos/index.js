@@ -23,6 +23,9 @@ const RegistrarProdutos = ({ navigation, route }) => {
         throw new Error('Token não encontrado');
       }
 
+      const decodedToken = jwtDecode(jwtToken);
+      const usuarioId = decodedToken && decodedToken.nameid;
+
       const response = await axios.get(API_URLS.PRODUTOS, {
         headers: {
           Authorization: `Bearer ${jwtToken}`
@@ -30,9 +33,10 @@ const RegistrarProdutos = ({ navigation, route }) => {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        setProdutos(response.data);
+        const produtosDoUsuario = response.data.filter(produto => produto.usuarioId === usuarioId);
+        setProdutos(produtosDoUsuario);
       } else {
-        throw new Error('Erro ao buscar produtyos: ' + JSON.stringify(response.data));
+        throw new Error('Erro ao buscar produtos: ' + JSON.stringify(response.data));
       }
     } catch (error) {
       console.error('Erro ao buscar produtos:', error);

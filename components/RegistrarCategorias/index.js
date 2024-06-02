@@ -23,6 +23,9 @@ const RegistrarCategorias = ({ navigation, route }) => {
         throw new Error('Token não encontrado');
       }
 
+      const decodedToken = jwtDecode(jwtToken);
+      const usuarioId = decodedToken && decodedToken.nameid;
+
       const response = await axios.get(API_URLS.CATEGORIAS, {
         headers: {
           Authorization: `Bearer ${jwtToken}`
@@ -30,7 +33,8 @@ const RegistrarCategorias = ({ navigation, route }) => {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        setCategorias(response.data);
+        const categoriasDoUsuario = response.data.filter(categoria => categoria.usuarioId === usuarioId);
+        setCategorias(categoriasDoUsuario);
       } else {
         throw new Error('Erro ao buscar categorias: ' + JSON.stringify(response.data));
       }

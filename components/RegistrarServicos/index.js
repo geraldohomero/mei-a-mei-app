@@ -23,6 +23,9 @@ const RegistrarServicos = ({ navigation, route }) => {
         throw new Error('Token não encontrado');
       }
 
+      const decodedToken = jwtDecode(jwtToken);
+      const usuarioId = decodedToken && decodedToken.nameid;
+
       const response = await axios.get(API_URLS.SERVICOS, {
         headers: {
           Authorization: `Bearer ${jwtToken}`
@@ -30,7 +33,8 @@ const RegistrarServicos = ({ navigation, route }) => {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        setServicos(response.data);
+        const servicosDoUsuario = response.data.filter(servico => servico.usuarioId === usuarioId);
+        setServicos(servicosDoUsuario);
       } else {
         throw new Error('Erro ao buscar servicos: ' + JSON.stringify(response.data));
       }

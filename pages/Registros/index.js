@@ -1,18 +1,17 @@
-import { useState, useEffect } from "react";
-import React from 'react';
-import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
-import { Table, Row, Rows } from 'react-native-table-component';
-import { jwtDecode } from "jwt-decode";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { Table, Row } from 'react-native-table-component';
 import { IconButton } from 'react-native-paper';
-
-import API_URLS, { API_URL } from "../../config/apiUrls";
+import API_URLS from '../../config/apiUrls';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { jwtDecode } from 'jwt-decode';
 
 const Registros = () => {
   const [faturamentos, setFaturamentos] = useState([]);
   const [despesas, setDespesas] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [servicos, setServicos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
@@ -34,15 +33,17 @@ const Registros = () => {
         fetch(`${API_URLS.DESPESAS}`).then((response) => response.json()),
         fetch(`${API_URLS.PRODUTOS}`).then((response) => response.json()),
         fetch(`${API_URLS.SERVICOS}`).then((response) => response.json()),
+        fetch(`${API_URLS.CATEGORIAS}`).then((response) => response.json())
       ])
         .then(
-          ([faturamentosData, despesasData, produtosData, servicosData]) => {
+          ([faturamentosData, despesasData, produtosData, servicosData, categoriasData]) => {
             setFaturamentos(
               faturamentosData.filter((fat) => fat.usuarioId === userId)
             );
             setDespesas(despesasData.filter((des) => des.usuarioId === userId));
             setProdutos(produtosData.filter((pro) => pro.usuarioId === userId));
             setServicos(servicosData.filter((ser) => ser.usuarioId === userId));
+            setCategorias(categoriasData.filter((cat) => cat.usuarioId === userId));
           }
         )
         .catch((error) => {
@@ -67,6 +68,9 @@ const Registros = () => {
         case "Servicos":
           url = `${API_URLS.SERVICOS}/${id}`;
           break;
+        case "Categorias":
+          url = `${API_URLS.CATEGORIAS}/${id}`;
+          break;
         default:
           throw new Error(`Tipo desconhecido: ${tipo}`);
       }
@@ -85,19 +89,54 @@ const Registros = () => {
     }
   };
 
+  const getNomeById = (id, array) => {
+    const item = array.find(item => item.id === id);
+    return item ? item.nome : '';
+  };
+
+  const renderFaturamentosRow = (fat) => {
+    return {
+      data: fat.dataFaturamento,
+      venda: fat.nome,
+      produto: getNomeById(fat.produtoId, produtos),
+      servico: getNomeById(fat.servicoId, servicos),
+      meioDePagamento: fat.meioDePagamento,
+      valor: fat.valor.toString(),
+      button: <IconButton
+        icon="delete"
+        color="red"
+        size={20}
+        onPress={() => handleExcluirRegistro("Faturamentos", fat.id)}
+      />
+    };
+  };
+
+  const renderDespesasRow = (des) => {
+    return {
+      dataDespesa: des.dataDespesa,
+      nome: des.nome,
+      categoria: getNomeById(des.categoriaId, categorias),
+      valor: des.valor.toString(),
+      button: <IconButton
+        icon="delete"
+        color="red"
+        size={20}
+        onPress={() => handleExcluirRegistro("Despesas", des.id)}
+      />
+    };
+  };
+
   const renderTable = (head, data, renderRow, title) => {
-    // Define uma largura padrão para cada coluna
-    const widthArr = new Array(head.length).fill(80); // Altere 100 para a largura desejada
+    const widthArr = new Array(head.length).fill(80); // Altere 80 para a largura desejada
 
     return (
-      // ScrollVirew horizontal para permitir a rolagem das colunas
-      // Caso o conteúdo seja maior que a tela
       <ScrollView horizontal={true}>
         <View>
+          <Text>{title}</Text>
           <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
             <Row data={head} style={styles.head} widthArr={widthArr} />
             {data.map((rowData, index) => (
-              <Row key={index} data={renderRow(rowData)} widthArr={widthArr} />
+              <Row key={index} data={Object.values(renderRow(rowData))} widthArr={widthArr} />
             ))}
           </Table>
         </View>
@@ -105,60 +144,44 @@ const Registros = () => {
     );
   };
 
-  const renderFaturamentosRow = (fat) => {
-    return [
-      fat.dataFaturamento,
-      fat.nome,
-      fat.produtoId === "Produto" ? produto?.nome : "",
-      fat.servicoId === "Serviço" ? servico?.nome : "",
-      fat.meioDePagamento,
-      fat.valor.toString(),
-      <IconButton
-        icon="delete"
-        color="red"
-        size={20}
-        onPress={() => handleExcluirRegistro("Faturamentos", fat.id)}
-      />
-    ];
-  };
-
-  const renderDespesasRow = (des) => {
-    return [
-      des.dataDespesa,
-      des.nome,
-      des.categoriasId,
-      des.valor.toString(),
-      <IconButton
-        icon="delete"
-        color="red"
-        size={20}
-        onPress={() => handleExcluirRegistro("Despesas", des.id)}
-      />
-    ];
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        <Text>Registros de vendas</Text>
         {renderTable(
           ["Data", "Venda", "Produto", "Serviço", "Meio de Pagamento", "Valor", ""],
           faturamentos,
           renderFaturamentosRow,
-          "Faturamentos"
+          "Registros de vendas"
         )}
-      </View>
-      <View style={styles.box}>
-        <Text>Registros de despesas</Text>
         {renderTable(
           ["Data", "Despesa", "Categoria", "Valor", ""],
           despesas,
           renderDespesasRow,
-          "Despesas"
+          "Registros de despesas"
         )}
       </View>
     </View>
+  );
 
+
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.box}>
+        {renderFaturamentosTable(
+          ["Data", "Venda", "Produto", "Serviço", "Meio de Pagamento", "Valor", ""],
+          faturamentos,
+          renderFaturamentosRow,
+          "Registros de vendas"
+        )}
+        {renderTable(
+          ["Data", "Despesa", "Categoria", "Valor", ""],
+          despesas,
+          renderDespesasRow,
+          "Registros de despesas"
+        )}
+      </View>
+    </View>
   );
 };
 
