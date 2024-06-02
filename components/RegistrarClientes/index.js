@@ -1,13 +1,38 @@
-import react from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button } from 'react-native';
 
 const RegistrarClientes = () => {
-  return (
-    <View >
-      <Text>Registrar Clientes</Text>
-    </View>
-  )
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [dataDeNascimento, setDataDeNascimento] = useState('');
+  const [usuarioId, setUsuarioId] = useState('');
 
+  const handleRegister = () => {
+    const cliente = {
+      id,
+      nome,
+      email,
+      telefone,
+      dataDeNascimento,
+      usuarioId,
+    };
+
+    // Aqui você pode enviar o objeto cliente para a API
+    console.log(cliente);
+  };
+
+  return (
+    <View>
+      <Text>Registrar Clientes</Text>
+      <TextInput placeholder="Nome" onChangeText={setNome} value={nome} />
+      <TextInput placeholder="Email" onChangeText={setEmail} value={email} />
+      <TextInput placeholder="Telefone" onChangeText={setTelefone} value={telefone} />
+      <TextInput placeholder="Data de Nascimento" onChangeText={setDataDeNascimento} value={dataDeNascimento} />
+      <TextInput placeholder="ID do Usuário" onChangeText={setUsuarioId} value={usuarioId} />
+      <Button title="Registrar" onPress={handleRegister} />
+    </View>
+  );
 };
 
 export default RegistrarClientes;

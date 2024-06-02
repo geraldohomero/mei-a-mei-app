@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -85,16 +85,25 @@ const Registros = () => {
     }
   };
 
-  const renderTable = (head, data, renderRow, title) => (
-    <View>
-      <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
-        <Row data={head} style={styles.head} />
-        {data.map((rowData, index) => (
-          <Row key={index} data={renderRow(rowData)} />
-        ))}
-      </Table>
-    </View>
-  );
+  const renderTable = (head, data, renderRow, title) => {
+    // Define uma largura padrão para cada coluna
+    const widthArr = new Array(head.length).fill(80); // Altere 100 para a largura desejada
+
+    return (
+      // ScrollVirew horizontal para permitir a rolagem das colunas
+      // Caso o conteúdo seja maior que a tela
+      <ScrollView horizontal={true}>
+        <View>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }}>
+            <Row data={head} style={styles.head} widthArr={widthArr} />
+            {data.map((rowData, index) => (
+              <Row key={index} data={renderRow(rowData)} widthArr={widthArr} />
+            ))}
+          </Table>
+        </View>
+      </ScrollView>
+    );
+  };
 
   const renderFaturamentosRow = (fat) => {
     return [
