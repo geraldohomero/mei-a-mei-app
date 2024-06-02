@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-community/datetimepicker": "^8.0.1",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/stack": "^6.3.29",
@@ -23,12 +24,16 @@
     "react": "18.2.0",
     "react-native": "0.74.1",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-currency-input": "^1.1.1",
+    "react-native-datepicker": "^1.7.2",
     "react-native-dialog": "^9.3.0",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-geolocation-service": "^5.3.1",
     "react-native-gesture-handler": "^2.16.2",
     "react-native-paper": "^5.12.3",
     "react-native-table-component": "^1.2.2",
-    "react-native-vector-icons": "^10.1.0"
+    "react-native-vector-icons": "^10.1.0",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
