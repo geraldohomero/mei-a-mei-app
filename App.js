@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import jwtDecode from 'jwt-decode';
-import StackNavigator from './navigators/StackNavigator';
-import TabNavigator from './navigators/TabNavigator';
+import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import jwtDecode from "jwt-decode";
+import StackNavigator from "./navigators/StackNavigator";
+import TabNavigator from "./navigators/TabNavigator";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-      const userToken = await AsyncStorage.getItem('userToken');
-      console.log('userToken:', userToken);
+      const userToken = await AsyncStorage.getItem("userToken");
+      console.log("userToken:", userToken);
       if (userToken) {
         const decodedToken = jwtDecode(userToken);
         const currentTime = Date.now() / 1000;
@@ -19,7 +19,7 @@ export default function App() {
           setIsLoggedIn(true);
         } else {
           setIsLoggedIn(false);
-          AsyncStorage.removeItem('userToken'); // Remove o token expirado
+          AsyncStorage.removeItem("userToken"); // Remove o token expirado
         }
       } else {
         setIsLoggedIn(false);

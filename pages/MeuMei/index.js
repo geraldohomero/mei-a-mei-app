@@ -1,72 +1,68 @@
-import React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import * as React from "react";
+import { IconButton, MD3Colors, Button } from "react-native-paper";
 
-import GraficoMes from '../../components/Graficos/GraficoMes';
-import GraficoAno from '../../components/Graficos/GraficoAno';
-import SaldoDespesas from '../../components/SaldoDespesas';
-import SaldoVendas from '../../components/SaldoVendas';
+import { View, ScrollView, StyleSheet, Text } from "react-native";
+
+import GraficoMes from "../../components/Graficos/GraficoMes";
+import GraficoAno from "../../components/Graficos/GraficoAno";
+import SaldoDespesas from "../../components/SaldoDespesas";
+import SaldoVendas from "../../components/SaldoVendas";
+import Container from "../../components/Container";
+import BarraProgresso from "../../components/BarraProgresso";
+import VendasDespesas from "../../components/VendasDespesas";
 
 const Faturamento = () => {
-  const [grafico, setGrafico] = React.useState('mes');
+  const [grafico, setGrafico] = React.useState("mes");
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.horizontalContainer}>
-        <View style={styles.equalFlexItem}>
-          <SaldoVendas />
-        </View>
-        <View style={styles.equalFlexItem}>
-          <SaldoDespesas />
-        </View>
-      </View>
-      <View style={styles.graphAndButtonsContainer}>
-        {grafico === 'mes' ? (
-          <GraficoMes style={styles.centeredGraph} />
-        ) : (
-          <GraficoAno style={styles.centeredGraph} />
-        )}
-        <View style={styles.buttonContainer}>
-          <View style={styles.equalFlexItem}>
-            <Button title="MÊS" onPress={() => setGrafico('mes')} />
+      <Container>
+        <ScrollView>
+          <View style={styles.buttonIcon}>
+            <Text style={styles.text}>Limite MEI</Text>
+            <View style={styles.buttonIcon}>
+              <Text style={styles.textInfo}>faturamento / mês</Text>
+              <IconButton
+                icon="information-outline"
+                iconColor={"#470459"}
+                size={24}
+                onPress={() => console.log("Pressed")}
+              />
+            </View>
           </View>
-          <View style={styles.equalFlexItem}>
-            <Button title="ANO" onPress={() => setGrafico('ano')} />
-          </View>
-        </View>
-      </View>
 
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <BarraProgresso progress={0.33} />
+          </View>
+          <View style={styles.horizontalContainer}>
+            <View style={styles.equalFlexItem}>
+              <SaldoVendas />
+            </View>
+            <View style={styles.equalFlexItem}>
+              <SaldoDespesas />
+            </View>
+          </View>
+          <VendasDespesas />
+        </ScrollView>
+      </Container>
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    alignItems: 'center',
+  buttonIcon: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  horizontalContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  text: {
+    fontSize: 18,
+    paddingVertical: 3,
+    color: "#470459",
   },
-  equalFlexItem: {
-    flex: 1,
-  },
-  graphAndButtonsContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 10,
-    margin: 55,
-  },
-  centeredGraph: {
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 10,
-    margin: 10,
+  textInfo: {
+    fontSize: 12,
+    color: "#aaa",
   },
 });
 
