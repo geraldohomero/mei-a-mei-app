@@ -18,7 +18,6 @@ const RegistrarClientes = () => {
       usuarioId,
     };
 
-    // Aqui você pode enviar o objeto cliente para a API
     console.log(cliente);
   };
 
