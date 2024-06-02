@@ -172,9 +172,6 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: '#f1f8ff'
   },
-  text: {
-    fontSize: 9
-  }
 });
 
 export default Registros;
